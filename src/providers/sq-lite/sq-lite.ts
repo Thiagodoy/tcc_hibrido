@@ -18,8 +18,8 @@ private db:SQLiteObject
     console.log('Hello SqLiteProvider Provider');
 
     this.sqlite.create({
-      name: 'data.db',
-      location: 'default'
+      name: 'teste_tcc.db3',
+    //  location: 'default'
     })
       .then((db: SQLiteObject) => {
 
@@ -32,7 +32,7 @@ private db:SQLiteObject
   }
 
   salvarLog(log:Log){
-    let query = `insert into t_log(processo,start,end)VALUES('${log.processo}',${log.start},${log.end})`;  
+    let query = `insert into t_log(processo,start,end)VALUES('${log.processo}',${log.start},${log.end})`;
 
     this.db.executeSql(query,{}).then(()=>console.log('Log salvo com sucesso!')).catch((error)=>{
       console.log('Erro -sqlite');
