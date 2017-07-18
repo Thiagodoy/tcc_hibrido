@@ -6,15 +6,18 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>Contacts</ion-title>
+    <ion-title>Contatos</ion-title>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content padding>
+
+      <button ion-button (click)="visualizarContatos()" > Listar Contatos</button>
+      <button ion-button > Inserir Contatos</button>
       <ion-list>
         <ion-list-header>
-          Header
+         Contatos total {{listContacts.length}}
         </ion-list-header>
         <ion-item *ngFor="let contact of listContacts">
           {{contact.displayName}}

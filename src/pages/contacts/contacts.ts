@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Contacts, Contact, ContactField, ContactName,ContactFieldType } from '@ionic-native/contacts';
+import { Contacts, Contact, ContactField, ContactName, ContactFieldType } from '@ionic-native/contacts';
 import { Toast } from '@ionic-native/toast';
+import { LoadingController,Loading } from 'ionic-angular';
+import { SqLiteProvider } from '../../providers/sq-lite/sq-lite';
+import { Log } from '../../providers/sq-lite/log-class';
 
 /**
  * Generated class for the ContactsPage page.
@@ -16,22 +19,44 @@ import { Toast } from '@ionic-native/toast';
 })
 export class ContactsPage {
 
-  listContacts:Contact[] = [];
+  listContacts: Contact[] = [];
+  loading:Loading = undefined;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    private contactProvider:Contacts,
-    private toastProvider:Toast) {
+    private contactProvider: Contacts,
+    private toastProvider: Toast,
+    private loadingProvider:LoadingController,
+    private sqliteProvider:SqLiteProvider) {
+
+      this.loading = this.loadingProvider.create({content:'Aguarde ...'});
+
+    // this.toastProvider.show('START','15000','bottom').subscribe((resul)=>{
+    //   console.log();
+    // });
 
   }
 
   ionViewDidLoad() {
-    //    this.contactProvider.find(['displayName', 'name', 'phoneNumbers', 'emails'], {filter: "", multiple: true}).then((response)=>{
-    //    this.listContacts = response;
-    //    this.toastProvider.showLongCenter('Contatos carregados com sucesso!');
-    // }).catch(error=>{
-    //   this.toastProvider.showLongCenter('Erro ao carregar os contatos!');
-    // });
+
+  }
+  
+  visualizarContatos(){
+
+    this.loading.present();
+    let log:Log = new Log('CONTATO',new Date().getTime(),0);
+    this.contactProvider.find(['displayName', 'name', 'phoneNumbers', 'emails'], { filter: "", multiple: true }).then((response) => {
+      this.listContacts = response;
+      log.end = new Date().getTime();
+      this.sqliteProvider.salvarLog(log);
+      this.loading.dismiss();
+      this.toastProvider.show('SUCESSO','5000','bottom');
+      console.log((log.end - log.start)/1000)
+    }).catch(error => {
+      this.loading.dismiss();
+      this.toastProvider.show('Erro','5000','bottom');     
+      
+    });
   }
 
 }

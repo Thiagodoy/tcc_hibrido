@@ -9,7 +9,10 @@ import { ContactsPage } from '../pages/contacts/contacts';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-
+import { Contacts } from '@ionic-native/contacts';
+import { Toast } from '@ionic-native/toast';
+import { SqLiteProvider } from '../providers/sq-lite/sq-lite';
+import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 @NgModule({
   declarations: [
     MyApp,
@@ -20,7 +23,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-  ],
+    ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
@@ -30,8 +33,11 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   ],
   providers: [
     StatusBar,
-    SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    SplashScreen, 
+    Contacts,  
+    Toast,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    SqLiteProvider,SQLite
   ]
 })
 export class AppModule {}
