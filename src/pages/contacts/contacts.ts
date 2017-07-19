@@ -21,6 +21,7 @@ export class ContactsPage {
 
   listContacts: Contact[] = [];
   loading:Loading = undefined;
+  quantity:any = undefined;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -28,35 +29,56 @@ export class ContactsPage {
     private toastProvider: Toast,
     private loadingProvider:LoadingController,
     private sqliteProvider:SqLiteProvider) {
-
-      this.loading = this.loadingProvider.create({content:'Aguarde ...'});
-
-    // this.toastProvider.show('START','15000','bottom').subscribe((resul)=>{
-    //   console.log();
-    // });
+    this.loading = this.loadingProvider.create({content:'Aguarde ...'});
 
   }
 
   ionViewDidLoad() {
 
   }
-  
+
   visualizarContatos(){
 
     this.loading.present();
-    let log:Log = new Log('CONTATO',new Date().getTime(),0);
+    let log:Log = new Log('LISTAR_CONTATO',new Date().getTime(),0);
     this.contactProvider.find(['displayName', 'name', 'phoneNumbers', 'emails'], { filter: "", multiple: true }).then((response) => {
       this.listContacts = response;
       log.end = new Date().getTime();
       this.sqliteProvider.salvarLog(log);
       this.loading.dismiss();
       this.toastProvider.show('SUCESSO','5000','bottom');
-      console.log((log.end - log.start)/1000)
+      console.log((log.end - log.start)/1000);
     }).catch(error => {
       this.loading.dismiss();
-      this.toastProvider.show('Erro','5000','bottom');     
-      
+      this.toastProvider.show('Erro','5000','bottom');
     });
   }
 
+  inserirContatos(){
+
+    this.loading.present();
+    let promises = []
+    let log:Log = new Log('LISTAR_CONTATO',new Date().getTime(),0);
+
+    for(let i = 0; i < 2; i++){
+      let contato = this.contactProvider.create();
+      contato.name = new ContactName(null,'Teste','Teste' + (i+1));
+      contato.phoneNumbers = [new ContactField('mobile','16999999999')];
+      promises.push(contato.save());
+    }
+
+    Promise.all(promises)
+    .then(response=>{
+      console.log('Contatos Salvo');
+      console.log(response);
+      log.end = new Date().getTime();
+     // this.sqliteProvider.salvarLog(log);
+      console.log((log.end - log.start)/1000);
+      this.loading.dismiss();
+    }).catch(erro=>{
+      console.log('Erro ao salvar Contatos');
+      console.log(erro);
+      this.loading.dismiss();
+    });
+  }
 }

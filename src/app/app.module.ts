@@ -6,6 +6,7 @@ import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { ContactsPage } from '../pages/contacts/contacts';
+import { LocalizacaoPage } from '../pages/localizacao/localizacao';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -13,12 +14,15 @@ import { Contacts } from '@ionic-native/contacts';
 import { Toast } from '@ionic-native/toast';
 import { SqLiteProvider } from '../providers/sq-lite/sq-lite';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
+import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+
 @NgModule({
   declarations: [
     MyApp,
     HomePage,
     ListPage,
-    ContactsPage
+    ContactsPage,
+    LocalizacaoPage
   ],
   imports: [
     BrowserModule,
@@ -29,13 +33,15 @@ import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
     MyApp,
     HomePage,
     ListPage,
-    ContactsPage
+    ContactsPage,
+    LocalizacaoPage
   ],
   providers: [
     StatusBar,
-    SplashScreen, 
-    Contacts,  
+    SplashScreen,
+    Contacts,
     Toast,
+    BackgroundGeolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SqLiteProvider,SQLite
   ]

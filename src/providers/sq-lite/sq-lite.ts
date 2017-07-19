@@ -18,8 +18,9 @@ private db:SQLiteObject
     console.log('Hello SqLiteProvider Provider');
 
     this.sqlite.create({
-      name: 'teste_tcc.db3',
-    //  location: 'default'
+      name: 'tcc_teste.db3',
+      location: 'default',
+      createFromLocation:1
     })
       .then((db: SQLiteObject) => {
 
