@@ -23,6 +23,7 @@
         "@ionic-native/background-geolocation": "^4.0.1",
         "@ionic-native/contacts": "^4.0.1",
         "@ionic-native/core": "3.10.2",
+        "@ionic-native/google-maps": "^4.1.0",
         "@ionic-native/splash-screen": "3.10.2",
         "@ionic-native/sqlite": "^4.0.1",
         "@ionic-native/status-bar": "3.10.2",
@@ -33,6 +34,7 @@
         "cordova-plugin-console": "^1.0.5",
         "cordova-plugin-contacts": "^2.3.1",
         "cordova-plugin-device": "^1.1.4",
+        "cordova-plugin-googlemaps": "^1.4.3",
         "cordova-plugin-mauron85-background-geolocation": "^2.2.5",
         "cordova-plugin-splashscreen": "^4.0.3",
         "cordova-plugin-statusbar": "^2.2.2",
@@ -67,6 +69,10 @@
             "cordova-plugin-mauron85-background-geolocation": {
                 "ACCOUNT_TYPE": "$PACKAGE_NAME.account",
                 "CONTENT_AUTHORITY": "$PACKAGE_NAME"
+            },
+            "cordova-plugin-googlemaps": {
+                "API_KEY_FOR_ANDROID": "AIzaSyBIGC55nEQXfUsjDaKG0u2tWrQB6idtLRQ",
+                "API_KEY_FOR_IOS": "YOUR_IOS_API_KEY_IS_HERE"
             }
         },
         "platforms": [

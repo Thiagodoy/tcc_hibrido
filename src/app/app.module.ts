@@ -15,6 +15,8 @@ import { Toast } from '@ionic-native/toast';
 import { SqLiteProvider } from '../providers/sq-lite/sq-lite';
 import { SQLite, SQLiteObject } from '@ionic-native/sqlite';
 import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
+import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker } from '@ionic-native/google-maps';
+//import { Camera, CameraOptions } from '@ionic-native/camera';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,7 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
     Toast,
     BackgroundGeolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    SqLiteProvider,SQLite
+    SqLiteProvider,SQLite,GoogleMaps,//Camera
   ]
 })
 export class AppModule {}
