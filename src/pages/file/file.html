@@ -1,0 +1,30 @@
+<!--
+  Generated template for the FilePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>File</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-item>
+    <ion-label>Tamanho Arquivo</ion-label>
+    <ion-select [(ngModel)]="fileName">
+      <ion-option value="file_txt_50_kb" selected="true">file 50 kb</ion-option>
+      <ion-option value="file_txt_500_kb">file 500 kb</ion-option>
+      <ion-option value="file_txt_1000_kb">file 1000 kb</ion-option>
+      <ion-option value="image_txt_50_kb" >image 50 kb</ion-option>
+      <ion-option value="image_txt_500_kb">image 500 kb</ion-option>
+      <ion-option value="image_txt_1000_kb">image 1000 kb</ion-option>
+    </ion-select>
+  </ion-item>
+     <button ion-button (click)="upload()"> <ion-icon  md="md-cloud-upload"></ion-icon> Upload</button>
+     <button ion-button (click)="download()">  <ion-icon md="md-cloud-download"></ion-icon> Dowload</button>
+</ion-content>

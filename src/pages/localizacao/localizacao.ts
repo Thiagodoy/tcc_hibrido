@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component,EventEmitter } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { BackgroundGeolocation, BackgroundGeolocationConfig, BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 import { GoogleMaps, GoogleMap, GoogleMapsEvent, LatLng, CameraPosition, MarkerOptions, Marker } from '@ionic-native/google-maps';
+import { HttpProvider } from '../../providers/http/http';
+import { Log } from '../../providers/sq-lite/log-class';
 
 @IonicPage()
 @Component({
@@ -16,7 +18,9 @@ export class LocalizacaoPage {
   map: GoogleMap;
   locations:BackgroundGeolocationResponse[];
   static count: number = 0;
-  constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public navParams: NavParams, private geolocationProvider: BackgroundGeolocation) {
+  loading:EventEmitter<boolean> = new EventEmitter();
+
+  constructor(private http:HttpProvider,private googleMaps: GoogleMaps, public navCtrl: NavController, public navParams: NavParams, private geolocationProvider: BackgroundGeolocation) {
 
     this.config = {
       desiredAccuracy: 0,
@@ -38,25 +42,25 @@ export class LocalizacaoPage {
   loadMap() {
 
     let element: HTMLElement = document.getElementById('map');
-
     this.map = this.googleMaps.create(element);
-
+    let log:Log = undefined;
 
     this.map.one(GoogleMapsEvent.MAP_READY).then(() => {
       // inicializa a Geolocaização
-      console.log('Location START');
+      log = new Log('GEO');
       this.geolocationProvider.configure(this.config).subscribe((location: BackgroundGeolocationResponse) => {
         this.location = location;
-        console.log(location);
         this.putMarker(location);
       });
-
 
       this.geolocationProvider.start();
       // Finaliza após um determinado tempo.
       setTimeout(() => {
         this.geolocationProvider.stop();
-        console.log('Location STOP');
+        log.setEndDate(new Date());
+        this.loading.emit(true);
+        this.http.saveLog(log);
+        this.loading.emit(false);
       }, 60000 * 5);
     }
     );
@@ -83,7 +87,7 @@ export class LocalizacaoPage {
         lat: location.latitude,
         lng: location.longitude
       },
-      title: 'TCC_HIBRIDO_POS_' + ++LocalizacaoPage.count
+      title: 'HIBRIDO_POS_' + ++LocalizacaoPage.count
 
     };
     this.map.addMarker(markerOptions)
