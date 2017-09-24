@@ -1,5 +1,8 @@
 {
   "name": "tcc_hibrido",
   "app_id": "tcc_hibrido",
-  "type": "ionic-angular"
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
 }

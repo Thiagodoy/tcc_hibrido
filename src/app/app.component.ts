@@ -7,8 +7,10 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { LocalizacaoPage } from '../pages/localizacao/localizacao';
+import { DataBasePage } from '../pages/data-base/data-base';
 import { FilePage } from '../pages/file/file';
 import { LoadingController,Loading } from 'ionic-angular';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,16 +25,27 @@ export class MyApp {
   loading:Loading = undefined;
 
 
-  constructor(private loadingProvider:LoadingController,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
+  constructor(private androidPermissions: AndroidPermissions,private loadingProvider:LoadingController,public platform: Platform, public statusBar: StatusBar, public splashScreen: SplashScreen) {
     this.initializeApp();
     this.loading = this.loadingProvider.create({content:'Aguarde ...'});
+
+
+    this.androidPermissions.checkPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(()=>{
+      console.log('Permission granted');
+    }).catch(()=>{
+      this.androidPermissions.requestPermission(this.androidPermissions.PERMISSION.WRITE_EXTERNAL_STORAGE).then(()=>{
+        console.log('Permission granted 3');
+      })
+    })
+
+
     // used for an example of ngFor and navigation
     this.pages = [
       { title: 'Home', component: HomePage },
-      { title: 'List', component: ListPage },
-      { title: 'Contacts', component: ContactsPage },
-      { title: 'Localização', component: LocalizacaoPage },
-      { title: 'Arquivos', component: FilePage }
+      { title: 'Banco de Dados', component: DataBasePage },
+      // { title: 'Contacts', component: ContactsPage },
+      // { title: 'Localização', component: LocalizacaoPage },
+      // { title: 'Arquivos', component: FilePage }
     ];
 
   }

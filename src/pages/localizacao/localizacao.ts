@@ -20,7 +20,7 @@ export class LocalizacaoPage {
   static count: number = 0;
   loading:EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private http:HttpProvider,private googleMaps: GoogleMaps, public navCtrl: NavController, public navParams: NavParams, private geolocationProvider: BackgroundGeolocation) {
+  constructor(private googleMaps: GoogleMaps, public navCtrl: NavController, public navParams: NavParams, private geolocationProvider: BackgroundGeolocation) {
 
     this.config = {
       desiredAccuracy: 0,
@@ -59,7 +59,7 @@ export class LocalizacaoPage {
         this.geolocationProvider.stop();
         log.setEndDate(new Date());
         this.loading.emit(true);
-        this.http.saveLog(log);
+       // this.http.saveLog(log);
         this.loading.emit(false);
       }, 60000 * 5);
     }
@@ -68,18 +68,18 @@ export class LocalizacaoPage {
 
   putMarker(location: BackgroundGeolocationResponse) {
 
-    // create CameraPosition
-    let position: CameraPosition = {
-      target: {
-        lat: location.latitude,
-        lng: location.longitude
-      },
-      zoom: 18,
-      tilt: 30
-    };
+    // // create CameraPosition
+    // let position: CameraPosition = {
+    //   target: {
+    //     lat: location.latitude,
+    //     lng: location.longitude
+    //   },
+    //   zoom: 18,
+    //   tilt: 30
+    // };
 
     // move the map's camera to position
-    this.map.moveCamera(position);
+    // this.map.moveCamera(position);
 
     // create new marker
     let markerOptions: MarkerOptions = {

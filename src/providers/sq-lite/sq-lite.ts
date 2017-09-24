@@ -13,26 +13,34 @@ import { Log } from './log-class';
 @Injectable()
 export class SqLiteProvider {
 
-private db:SQLiteObject
+  private db: SQLiteObject
   constructor(private sqlite: SQLite) {
     console.log('Hello SqLiteProvider Provider');
 
     this.sqlite.create({
       name: 'tcc_teste.db3',
       location: 'default',
-      createFromLocation:1
+      createFromLocation: 1
     })
       .then((db: SQLiteObject) => {
 
         this.db = db;
-        this.db.executeSql('create table t_log(processo VARCHAR(32),start INTEGER,end INTEGER)', {})
-          .then(() => console.log('Executed SQL'))
-          .catch(e => console.log(e));
+
+
+
+        this.db.executeSql('create table person(name VARCHAR(99),last_name VARCHAR(99),age INTEGER)', {})
+          .then(() => {          
+            this.initDataLeitura(db);
+            console.log('Executed SQL')})
+          .catch(e => {
+            
+            this.initDataLeitura(db); 
+            console.log(e)});
       })
       .catch(e => console.log(e));
   }
 
-  salvarLog(log:Log){
+  salvarLog(log: Log) {
     // let query = `insert into t_log(processo,start,end)VALUES('${log.processo}',${log.start},${log.end})`;
 
     // this.db.executeSql(query,{}).then(()=>console.log('Log salvo com sucesso!')).catch((error)=>{
@@ -40,5 +48,83 @@ private db:SQLiteObject
     //   console.log(error);
     // })
   }
+  truncateTable(table: string): Promise<any> {
+    return this.db.executeSql(`DELETE FROM ${table};`, {})
+  }
+  teste(count: number): Promise<any> {
 
+    let promises = []
+    let init = new Date();
+    let end = undefined;
+    let error = undefined;
+
+    while (count >= 0) {
+      let query = `insert into person(name,last_name,age)VALUES('${'Lorem ' + count}','${'Lorem ' + count}',${count})`;
+      promises.push(this.db.executeSql(query, {}));
+      count--;
+    }
+
+    return Promise.all(promises).then(() => {
+      end = new Date();
+      return { init, end, error }
+    }).catch((e) => {
+      error = e;
+      end = new Date();
+      return { init, end, error }
+    });
+
+  }
+
+  leitura(dtq): Promise<any> {
+    let count = dtq;
+    let init = new Date();
+    let end = undefined;
+    let error = undefined;  
+    
+      if (dtq == 500) {
+        return this.db.executeSql(`select * from person limit ${dtq};`, {}).then(() => {
+          end = new Date();
+          return { init, end, error }
+        }).catch((e) => {
+          error = e;
+          end = new Date();
+          return { init, end, error }
+        })
+      } else {
+        return this.db.executeSql(`select * from person limit ${dtq};`, {}).then(() => {
+          end = new Date();
+          return { init, end, error }
+        }).catch((e) => {
+          error = e;
+          end = new Date();
+          return { init, end, error }
+        })
+      }
+    
+  }
+
+  initDataLeitura(db:SQLiteObject):Promise<any>{
+    debugger;
+
+    let promises = []
+    let init = new Date();
+    let end = undefined;
+    let error = undefined;
+    let count = 5000
+
+    while (count >= 0) {
+      let query = `insert into person(name,last_name,age)VALUES('${'Lorem ' + count}','${'Lorem ' + count}',${count})`;
+      promises.push(db.executeSql(query, {}));
+      count--;
+    }
+
+    return Promise.all(promises).then(() => {
+      end = new Date();
+      return { init, end, error }
+    }).catch((e) => {
+      error = e;
+      end = new Date();
+      return { init, end, error }
+    });
+  }
 }

@@ -8,6 +8,7 @@ import { HomePage } from '../pages/home/home';
 import { ListPage } from '../pages/list/list';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { LocalizacaoPage } from '../pages/localizacao/localizacao';
+import { DataBasePage } from '../pages/data-base/data-base';
 import { FilePage } from '../pages/file/file';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -20,7 +21,10 @@ import { BackgroundGeolocation } from '@ionic-native/background-geolocation';
 import { GoogleMaps } from '@ionic-native/google-maps';
 
 import { HttpProvider } from '../providers/http/http';
-import { FileTransfer} from '@ionic-native/file-transfer';
+import { DatePipe } from '@angular/common' 
+import { AndroidPermissions } from '@ionic-native/android-permissions';
+import { FileManagerProvider } from '../providers/file-manger/file-manager';
+//import { FileTransfer} from '@ionic-native/file-transfer';
 import { File } from '@ionic-native/file';
 //import { Camera, CameraOptions } from '@ionic-native/camera';
 
@@ -31,7 +35,9 @@ import { File } from '@ionic-native/file';
     ListPage,
     ContactsPage,
     LocalizacaoPage,
-    FilePage
+    FilePage,
+    DataBasePage
+    
   ],
   imports: [
     BrowserModule,
@@ -44,7 +50,8 @@ import { File } from '@ionic-native/file';
     ListPage,
     ContactsPage,
     LocalizacaoPage,
-    FilePage
+    FilePage,
+    DataBasePage
   ],
   providers: [
     StatusBar,
@@ -54,7 +61,11 @@ import { File } from '@ionic-native/file';
     BackgroundGeolocation,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     SqLiteProvider,SQLite,GoogleMaps,Http,
-    HttpProvider,File,FileTransfer//Camera
+    HttpProvider,
+    File,    
+    DatePipe,
+    AndroidPermissions,
+    FileManagerProvider
   ]
 })
 export class AppModule {}
