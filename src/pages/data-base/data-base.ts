@@ -21,6 +21,7 @@ export class DataBasePage {
 
   running:boolean = false
   quantidade:any;
+  insert:boolean = true;
   experimentosL= [];
   experimentosE= [];
   loading:Loading;
@@ -107,6 +108,8 @@ export class DataBasePage {
           resul.time = (resul.end.getTime() - resul.init.getTime());
           resul.init = this.fm.transform(resul.init,'dd/MM/yyyy hh:mm:ss')
           resul.end = this.fm.transform(resul.end,'dd/MM/yyyy hh:mm:ss')
+          resul.time_init = resul.init;
+          resul.time_end = resul.end;
           resul.qtd =  DataBasePage.expCurrent.qtd; 
           resul.type = DataBasePage.expCurrent.type                    
           this.experimentosE.push(resul);
@@ -136,10 +139,12 @@ export class DataBasePage {
     this.running = false;
     try {
        
-      let log:string = "experimento,execucao,tempo,inicio,fim,quantidade,tipo,etapa,plataforma\n";     
+      let log:string = this.insert ? "experimento,execucao,tempo,inicio,fim,time_inicio,time_fim,quantidade,tipo,etapa,plataforma\n":"";     
       
+      this.insert = false;
+
       data.forEach(el=>{                
-          log +=  `${el.exp},${el.execution},${el.time},${el.init},${el.end},${el.qtd},${el.type},'SQLITE','PHONEGAP'\n`;
+          log +=  `${el.exp},${el.execution},${el.time},${el.init},${el.end},${el.time_init},${el.time_end},${el.qtd},${el.type},'SQLITE','PHONEGAP'\n`;
       });
       this.fileWriter.write(log);
     } catch (error) {
@@ -177,16 +182,16 @@ export class DataBasePage {
         this.sql.leitura(parseInt(this.quantidade)).then(resul=>{
           resul.exp =  DataBasePage.expCurrent.exp;
           resul.execution = ++DataBasePage.qtd;
-          resul.time = (resul.end.getTime() - resul.init.getTime())/1000;
-          resul.init = this.fm.transform(resul.init,'dd/MM/yyyy hh:mm:ss')
-          resul.end = this.fm.transform(resul.end,'dd/MM/yyyy hh:mm:ss')
+          resul.time = (resul.end.getTime() - resul.init.getTime());
+          resul.init = this.fm.transform(resul.init,'dd/MM/yyyy hh:mm:ss');
+          resul.end = this.fm.transform(resul.end,'dd/MM/yyyy hh:mm:ss');
+          resul.time_init = resul.init;
+          resul.time_end = resul.end;
           resul.qtd =  DataBasePage.expCurrent.qtd; 
           resul.type = DataBasePage.expCurrent.type                    
           this.experimentosL.push(resul);
-
-                         
-            DataBasePage.removeElement = false;          
-            this.iniciarTesteLeitura();               
+          DataBasePage.removeElement = false;          
+          this.iniciarTesteLeitura();               
          
         });
       }else{        

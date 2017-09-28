@@ -53,21 +53,16 @@ export class SqLiteProvider {
   }
   teste(count: number): Promise<any> {
 
-    let querys = new Array<string>();
+    let promises = new Array<any>();
     let init = new Date();
     let end = undefined;
     let error = undefined;
-    
-    while (count >= 0) {
-      let query = `insert into person(name,last_name,age)VALUES('${'Lorem ' + count}','${'Lorem ' + count}',${count})`;      
-      querys.push(query);
+
+    while (count >= 0) {          
+      promises.push(this.db.executeSql('INSERT INTO PERSON VALUES (?,?,?)', ['LOREM' + count, 'LOREM' + count, count]));
       --count;
     }
-
-    this.db.transaction
-
-
-    return this.db.sqlBatch(querys).then(response=>{      
+    return Promise.all(promises).then(response=>{      
       end = new Date();
       return { init, end, error }
     }).catch(e=>{
