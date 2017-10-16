@@ -10,6 +10,8 @@ import { ContactsPage } from '../pages/contacts/contacts';
 import { LocalizacaoPage } from '../pages/localizacao/localizacao';
 import { DataBasePage } from '../pages/data-base/data-base';
 import { FilePage } from '../pages/file/file';
+import { BarcodePage } from '../pages/barcode/barcode';
+import { SearchFilePage } from '../pages/search-file/search-file';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
@@ -28,6 +30,8 @@ import { FileManagerProvider } from '../providers/file-manger/file-manager';
 import { File } from '@ionic-native/file';
 //import { Camera, CameraOptions } from '@ionic-native/camera';
 
+import { BarcodeScanner } from '@ionic-native/barcode-scanner';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -36,7 +40,9 @@ import { File } from '@ionic-native/file';
     ContactsPage,
     LocalizacaoPage,
     FilePage,
-    DataBasePage
+    DataBasePage,
+    BarcodePage,
+    SearchFilePage
     
   ],
   imports: [
@@ -51,7 +57,9 @@ import { File } from '@ionic-native/file';
     ContactsPage,
     LocalizacaoPage,
     FilePage,
-    DataBasePage
+    DataBasePage,
+    BarcodePage,
+    SearchFilePage
   ],
   providers: [
     StatusBar,
@@ -65,7 +73,8 @@ import { File } from '@ionic-native/file';
     File,    
     DatePipe,
     AndroidPermissions,
-    FileManagerProvider
+    FileManagerProvider,
+    BarcodeScanner
   ]
 })
 export class AppModule {}

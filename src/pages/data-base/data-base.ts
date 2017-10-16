@@ -92,7 +92,7 @@ export class DataBasePage {
         this.gravarLog(this.experimentosE);
         this.loading.dismiss();
         this.running = false;
-        debugger;
+        ;
         this.iniciarTesteLeitura();
         return
       }     
@@ -103,13 +103,14 @@ export class DataBasePage {
         this.quantidade =  DataBasePage.expCurrent.qtd;
 
         this.sql.teste(parseInt(this.quantidade)).then(resul=>{
+          
           resul.exp =  DataBasePage.expCurrent.exp;
           resul.execution = ++DataBasePage.qtd;
           resul.time = (resul.end.getTime() - resul.init.getTime());
+          resul.time_init = resul.init.getTime();
+          resul.time_end = resul.end.getTime();
           resul.init = this.fm.transform(resul.init,'dd/MM/yyyy hh:mm:ss')
           resul.end = this.fm.transform(resul.end,'dd/MM/yyyy hh:mm:ss')
-          resul.time_init = resul.init;
-          resul.time_end = resul.end;
           resul.qtd =  DataBasePage.expCurrent.qtd; 
           resul.type = DataBasePage.expCurrent.type                    
           this.experimentosE.push(resul);
@@ -144,7 +145,7 @@ export class DataBasePage {
       this.insert = false;
 
       data.forEach(el=>{                
-          log +=  `${el.exp},${el.execution},${el.time},${el.init},${el.end},${el.time_init},${el.time_end},${el.qtd},${el.type},'SQLITE','PHONEGAP'\n`;
+          log +=  `${el.exp},${el.execution},${el.time},${el.init},${el.end},${el.time_init},${el.time_end},${el.qtd},${el.type},SQLITE,PHONEGAP\n`;
       });
       this.fileWriter.write(log);
     } catch (error) {
@@ -180,13 +181,14 @@ export class DataBasePage {
         this.quantidade =  DataBasePage.expCurrent.qtd;
 
         this.sql.leitura(parseInt(this.quantidade)).then(resul=>{
+          
           resul.exp =  DataBasePage.expCurrent.exp;
           resul.execution = ++DataBasePage.qtd;
           resul.time = (resul.end.getTime() - resul.init.getTime());
+          resul.time_init = resul.init.getTime();
+          resul.time_end = resul.end.getTime();
           resul.init = this.fm.transform(resul.init,'dd/MM/yyyy hh:mm:ss');
           resul.end = this.fm.transform(resul.end,'dd/MM/yyyy hh:mm:ss');
-          resul.time_init = resul.init;
-          resul.time_end = resul.end;
           resul.qtd =  DataBasePage.expCurrent.qtd; 
           resul.type = DataBasePage.expCurrent.type                    
           this.experimentosL.push(resul);

@@ -8,6 +8,8 @@ import { ListPage } from '../pages/list/list';
 import { ContactsPage } from '../pages/contacts/contacts';
 import { LocalizacaoPage } from '../pages/localizacao/localizacao';
 import { DataBasePage } from '../pages/data-base/data-base';
+import { BarcodePage } from '../pages/barcode/barcode';
+import { SearchFilePage } from '../pages/search-file/search-file';
 import { FilePage } from '../pages/file/file';
 import { LoadingController,Loading } from 'ionic-angular';
 import { AndroidPermissions } from '@ionic-native/android-permissions';
@@ -43,6 +45,8 @@ export class MyApp {
     this.pages = [
       { title: 'Home', component: HomePage },
       { title: 'Banco de Dados', component: DataBasePage },
+      { title: 'Dicionario', component: SearchFilePage },
+      { title: 'Codigo de Barras', component: BarcodePage },
       // { title: 'Contacts', component: ContactsPage },
       // { title: 'Localização', component: LocalizacaoPage },
       // { title: 'Arquivos', component: FilePage }
